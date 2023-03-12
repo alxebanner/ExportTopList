@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>导出舰长列表</title>
+</head>
+<body>
+<div>
+    <br>
+    <h2 class="textCenter" align="center">
+        <span class="firstTitle"> 导出舰长列表</span>
+    </h2>
+    <!--    <span> 舰长列表</span>-->
+    <!--    <form action="/example/html/form_action.asp" method="get">-->
+    <!--        <p>First name: <input type="text" name="fname"/></p>-->
+    <!--        <p>Last name: <input type="text" name="lname"/></p>-->
+    <!--        <input type="submit" value="Submit"/>-->
+    <!--    </form>-->
+    <form method="post">
+        <input type="text" placeholder="请输入UID" style="width:20%" name="name" id="myInput">
+        <span id="message">1111</span>
+
+
+        <!--        <div id="message2">22 </div>-->
+        <!--        passWord:<input type="password" name="passWord">-->
+        <input type="button" id="set" value="生成"/>
+        <!--        <input type="submit" id="open" value="打开所在文件夹"/>-->
+        <input type="button" id="save" value="保存配置"/>
+
+        <input type="button" id="exit" value="退出"/>
+        <span id="message1"> </span>
+        <!--        <input   type="button" id="open" value="复制路径"/>-->
+        <!--        <P id="savePath"> 路径</P>-->
+        <!--        <a id = "link" href="D:\myProject\git_project\getTopList\src\main\resources\templates">open</a>-->
+
+        <!--        <a href="c:" target="_blank" >C盘</a>-->
+
+        <!--        <div onDblClick="copyInnerTextOfCell(event)">已成功复制 div 标签内容</div>-->
+    </form>
+    <br>
+    <br>
+    <span id="message_count"> </span>
+    <br>
+
+    <!--    <input type="button" id="test" value="测试表格"/>-->
+
+    <div id="div1">
+        <table id="table">
+        </table>
+    </div>
+
+    <!--        <div id="div2">-->
+    <!--            <table border="1">-->
+    <!--                <tr>-->
+    <!--                    <th>Month</th>-->
+    <!--                    <th>Savings</th>-->
+    <!--                </tr>-->
+    <!--                <tr>-->
+    <!--                    <td>January</td>-->
+    <!--                    <td>$100</td>-->
+    <!--                    <td>$100</td>-->
+    <!--                    <td>$100</td>-->
+    <!--                </tr>-->
+    <!--            </table>-->
+    <!--        </div>-->
+
+
+    <!--    <button onclick="copy()">复制</button>-->
+    <!--    <p id="jsP">-->
+    <!--        Try to alter this text using the execCommands buttons above-->
+    <!--        You see, in this world there's two kinds of people-->
+    <!--    </p>-->
+    <!--    <textarea name="" id="jsTextArea" cols="30" rows="10"></textarea>-->
+    <!--    <input type="button" id="test" value="测试"/>-->
+    <!--    <div contenteditable="true" onmouseup="setToBold()">addsasdsaddsads</div>-->
+
+
+    <!--    <form action="formDate" method="post" id="2">-->
+    <!--        <input type="text" placeholder="可以输入多个UID，使用逗号分开" style="width:20%" name="name" id="myInput1">-->
+    <!--        &lt;!&ndash;        passWord:<input type="password" name="passWord">&ndash;&gt;-->
+    <!--        <input type="submit" id="search1" value="查询"/>-->
+    <!--        <input type="submit" id="save1" value="保存"/>-->
+    <!--        <input type="submit" id="export1" value="导出"/>-->
+    <!--    </form>-->
+
+
+    <!--    <p>请单击确认按钮，输入会发送到服务器上名为 "form_action.asp" 的页面。</p>-->
+
+
+    <!--    <input type="file" id="upload" name="upload" accept=".txt, .doc, .docx"/> <br />-->
+
+    <!--    <span class="firstTitle">-->
+    <!--        舰长分析1</span>-->
+    <br>
+    <h2>
+        <!--        <span>弹幕姬web控制面板</span>-->
+    </h2>
+</div>
+
+</body>
+<!--<script type="text/javascript" src="../js/jquery.min"></script>-->
+<style>
+
+ .firstTitle {
+font-size: 80px;
+ }
+
+ .app {
+	background-color: #f8f9fa;
+	height: 100vh;
+	overflow-x: hidden;
+	width: 100%;
+	padding-right: 15px;
+	padding-left: 15px;
+	margin-right: auto;
+	margin-left: auto;
+	position: absolute !important;
+
+}
+
+
+
+
+
+table {
+            width: 600px;
+            padding: 0 ;
+            margin: 100 auto;
+            border-collapse: collapse;
+        }
+        td,th {
+            border: 1px solid #ddd;
+            padding: 6px 6px 6px 12px;
+            color: #4f6b72;
+            text-align: center;
+        }
+        th {
+            background: #d3d3d3;
+
+        }
+</style>
+<script type="text/javascript" src="../static/js/jquery.min.js"
+        th:src="@{/js/jquery.min.js}"></script>
+<script>
+
+
+function setToBold() {
+          document.execCommand('copy');
+        }
+
+<!--$("#open").click(function(){-->
+<!--  document.execCommand('copy');-->
+<!--})-->
+
+  function copy() {
+       // 需要复制的文本
+       const copyElement = document.getElementById('savePath');
+       // 展示复制内容的容器
+       const textareaElement = document.getElementById('jsTextArea');
+       textareaElement.innerText = copyElement.innerHTML;
+       textareaElement.select();
+       document.execCommand('copy');
+   }
+
+
+$('#open').click(function(){
+<!--$('#savePath').text('33');-->
+copy()
+
+})
+
+
+
+
+
+$(function(){
+<!--	  alert("111。");-->
+ $("#message").css('display','none');
+<!--  $("#message2").css('display','none');-->
+
+ $.ajax({
+            url: '../getConfigUid',
+            data: {
+            },
+            async: false,
+            cache: false,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+            $("#myInput").val(data.data);
+            }
+            });
+        })
+
+
+<!--$("#set").click(function(){-->
+<!--               alert("段落被点击了。");-->
+<!--              });-->
+
+
+$("#exit").click(function(){
+<!--               alert("退出");-->
+               $.ajax({
+            url: '../exit',
+            data: {
+            },
+            async: false,
+            cache: false,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+            }
+            });
+              });
+
+
+              $("#set").click(function(){
+<!--               alert("生成");-->
+               $.ajax({
+            url: '../sendConfigUid',
+            headers:{"Content-Type":"application/json;charset=utf8","uid": $("#myInput").val() },
+            data: {
+            },
+            async: false,
+            cache: false,
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+            $("#message1").html(data.data.path)
+            $("#message_count").html( "舰长总数:" + data.data.list.length)
+            $("#table").empty("");
+
+
+var data2=data.data.list
+ var headName = ["uid","排名","昵称","舰队等级","勋章等级"]
+
+                         var div = document.getElementById("div1");
+                         var table = document.getElementById("table");
+                         var thead = document.createElement("tr");
+                         for ( var count = 0; count < headName.length; count++) {
+                                   var td = document.createElement("th");
+                                   td.innerHTML = headName[count];
+                                   thead.appendChild(td);
+                          }
+                          table.appendChild(thead);
+
+
+                          for ( var tableRowNo = 0; tableRowNo < data2.length; tableRowNo++) {
+                                   var tr = document.createElement("tr");
+
+                                   var cell1 = document.createElement("td");
+                                   cell1.innerHTML = data2[tableRowNo].uid;
+                                   tr.appendChild(cell1);
+
+                                    var cell2 = document.createElement("td");
+                                   cell2.innerHTML = data2[tableRowNo].rank;
+                                   tr.appendChild(cell2);
+
+                                    var cell3 = document.createElement("td");
+                                   cell3.innerHTML = data2[tableRowNo].username;
+                                   tr.appendChild(cell3);
+
+                                    var cell4 = document.createElement("td");
+                                   cell4.innerHTML = data2[tableRowNo].guard_level;
+                                   tr.appendChild(cell4);
+
+                                    var cell5 = document.createElement("td");
+                                   cell5.innerHTML = data2[tableRowNo].medal_level;
+                                   tr.appendChild(cell5);
+
+                                   table.appendChild(tr);
+                        }
+                          div.appendChild(table);
+
+
+
+
+
+            },
+            });
+            });
+
+
+
+
+
+
+<!--save-->
+
+
+
+
+$("#save").click(function(){
+<!--               alert("保存");-->
+
+var str1 = $('input').val();
+
+               $.ajax({
+            url: '../saveConfigUid',
+            data: {
+            uid: str1
+            },
+            async: false,
+            cache: false,
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+
+            $('#savePath').text(JSON.parse(data));
+            }
+
+
+            });
+              });
+
+
+
+<!--              test-->
+
+              $(document).ready(function(){
+
+   });
+
+          var jsonArray = [{"主键":"","租户ID":"小苹果","账号":"现代神曲，大妈的最爱","密码":"小00","昵称":"小00","真名":"小00","头像":"小00","邮箱":"小00","手机":"小00","生日":"小00","性别":"小00","角色id":"小00","部门id":"小00",}];
+          var headArray = [];
+          function parseHead(oneRow) {
+                        for ( var i in oneRow) {
+                                headArray[headArray.length] = i;
+                         }
+            }
+            function appendTable() {
+
+                 $.ajax({
+                    type:"get",
+                    url:"${pageContext.request.contextPath }/getUserInfo.do",
+                    //data:{"id":id},
+                    success:function(data) {
+                        var datas=Array.from(data.data);
+                        //alert(datas);
+                         parseHead(data.data[0]);
+                         var div = document.getElementById("div1");
+                         //var table = document.createElement("table");
+                         var table = document.getElementById("table");
+                         var thead = document.createElement("tr");
+                         for ( var count = 0; count < headArray.length; count++) {
+                                   var td = document.createElement("th");
+                                   td.innerHTML = headArray[count];
+                                   thead.appendChild(td);
+                          }
+                          table.appendChild(thead);
+                         for ( var tableRowNo = 0; tableRowNo < data.data.length; tableRowNo++) {
+                                   var tr = document.createElement("tr");
+                                   for ( var headCount = 0; headCount < headArray.length; headCount++) {
+                                           var cell = document.createElement("td");
+                                           cell.innerHTML = data.data[tableRowNo][headArray[headCount]];
+                                           tr.appendChild(cell);
+                                   }
+                                   table.appendChild(tr);
+                        }
+                         div.appendChild(table);
+
+                    }
+                });
+        }
+
+
+
+
+
+<!--tets1-->
+var jsonArray = [{"主键":"","租户ID":"小苹果","账号":"现代神曲，大妈的最爱","密码":"小00","昵称":"小00","真名":"小00","头像":"小00","邮箱":"小00","手机":"小00","生日":"小00","性别":"小00","角色id":"小00","部门id":"小00",}];
+
+   var headArray = [];
+  function parseHead(oneRow) {
+                        for ( var i in oneRow) {
+                                headArray[headArray.length] = i;
+                         }
+            }
+
+
+$("#test").click(function(){
+             $.ajax({
+            url: '../sendConfigUid2',
+            headers:{"Content-Type":"application/json;charset=utf8","uid": $("#myInput").val() },
+            data: {
+            uid: $('input').val()
+            },
+            async: false,
+            cache: false,
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+
+var data1=Array.from(data.data.list)
+var data2=data.data.list
+
+<!--var div = document.getElementById("div1")-->
+headArray=data1
+                         var headName = ["uid","排名","昵称","舰队等级","勋章等级"]
+
+                         var div = document.getElementById("div1");
+                         var table = document.getElementById("table");
+                         var thead = document.createElement("tr");
+                         for ( var count = 0; count < headName.length; count++) {
+                                   var td = document.createElement("th");
+                                   td.innerHTML = headName[count];
+                                   thead.appendChild(td);
+                          }
+                          table.appendChild(thead);
+
+
+                          for ( var tableRowNo = 0; tableRowNo < data2.length; tableRowNo++) {
+                                   var tr = document.createElement("tr");
+
+                                   var cell1 = document.createElement("td");
+                                   cell1.innerHTML = data2[tableRowNo].uid;
+                                   tr.appendChild(cell1);
+
+                                    var cell2 = document.createElement("td");
+                                   cell2.innerHTML = data2[tableRowNo].rank;
+                                   tr.appendChild(cell2);
+
+                                    var cell3 = document.createElement("td");
+                                   cell3.innerHTML = data2[tableRowNo].username;
+                                   tr.appendChild(cell3);
+
+                                    var cell4 = document.createElement("td");
+                                   cell4.innerHTML = data2[tableRowNo].guard_level;
+                                   tr.appendChild(cell4);
+
+                                    var cell5 = document.createElement("td");
+                                   cell5.innerHTML = data2[tableRowNo].medal_level;
+                                   tr.appendChild(cell5);
+
+                                   table.appendChild(tr);
+                        }
+                          div.appendChild(table);
+            }
+            });
+              });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</html>
